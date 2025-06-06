@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - CARTPAY STORE</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="admin-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="loader">
+        <div class="loader-content">
+            <i class="fas fa-shopping-cart"></i>
+            <span>Loading...</span>
+        </div>
+    </div>
+
+    <div class="scroll-progress"></div>
+
+    <header class="header">
+        <div class="logo">
+            <i class="fas fa-gamepad"></i>
+            <h1>CARTPAY STORE</h1>
+        </div>
+        <nav class="nav">
+            <ul>
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="index.html#shop"><i class="fas fa-store"></i> Shop</a></li>
+                <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
+            </ul>
+        </nav>
+        <div class="auth-buttons">
+            <button class="btn btn-login" id="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+    </header>
+
+    <main class="admin-container">
+        <div class="admin-content">
+            <div class="admin-header">
+                <h1>Admin Dashboard</h1>
+                <div class="admin-info">
+                    <span class="admin-name">Welcome, Admin</span>
+                </div>
+            </div>
+
+            <div class="admin-tabs">
+                <button class="tab-button active" data-tab="dashboard">
+                    <i class="fas fa-chart-line"></i> Dashboard
+                </button>
+                <button class="tab-button" data-tab="products">
+                    <i class="fas fa-box"></i> Products
+                </button>
+                <button class="tab-button" data-tab="customers">
+                    <i class="fas fa-users"></i> Customers
+                </button>
+                <button class="tab-button" data-tab="announcements">
+                    <i class="fas fa-bullhorn"></i> Announcements
+                </button>
+                <button class="tab-button" data-tab="coupons">
+                    <i class="fas fa-ticket-alt"></i> Coupons
+                </button>
+            </div>
+
+            <!-- Dashboard Tab -->
+            <div class="tab-content active" id="dashboard">
+                <div class="admin-stats">
+                    <div class="stat-card">
+                        <i class="fas fa-shopping-bag"></i>
+                        <h3 id="total-orders">0</h3>
+                        <p>Total Orders</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-dollar-sign"></i>
+                        <h3 id="total-revenue">₹0.00</h3>
+                        <p>Total Revenue</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-users"></i>
+                        <h3 id="total-customers">0</h3>
+                        <p>Total Customers</p>
+                    </div>
+                </div>
+
+                <button class="btn reset-dashboard-btn" onclick="resetDashboardStats()">Reset Stats</button>
+
+                <div class="orders-section">
+                    <div class="orders-header">
+                        <h2>Recent Orders</h2>
+                        <div class="order-filters">
+                            <select id="status-filter">
+                                <option value="all">All Orders</option>
+                                <option value="pending">Pending</option>
+                                <option value="completed">Completed</option>
+                            </select>
+                            <select id="sort-filter">
+                                <option value="newest">Newest First</option>
+                                <option value="oldest">Oldest First</option>
+                                <option value="highest">Highest Amount</option>
+                                <option value="lowest">Lowest Amount</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="orders-list" id="orders-list"></div>
+                </div>
+            </div>
+
+            <!-- Products Tab -->
+            <div class="tab-content" id="products">
+                <div class="product-form">
+                    <h2>Add New Product</h2>
+                    <form id="product-form">
+                        <div class="form-group">
+                            <label for="product-logo">Product Logo</label>
+                            <input type="file" id="product-logo" accept="image/*" required>
+                            <div class="logo-preview" id="logo-preview">
+                                <i class="fas fa-image"></i>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-name">Product Name</label>
+                            <input type="text" id="product-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-description">Product Description</label>
+                            <textarea id="product-description" rows="4" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-rating">Product Rating (1-5)</label>
+                            <input type="number" id="product-rating" min="1" max="5" step="0.1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-price">Product Price (₹)</label>
+                            <input type="number" id="product-price" min="0" step="0.01" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Add Product
+                        </button>
+                    </form>
+                </div>
+                <div class="products-list" id="products-list"></div>
+            </div>
+
+            <!-- Customers Tab -->
+            <div class="tab-content" id="customers">
+                <button class="btn reset-customers-btn" onclick="resetAllCustomers()">Reset All</button>
+                <div class="live-counters">
+                    <div class="counter-card">
+                        <i class="fas fa-user-check"></i>
+                        <div class="counter-value" id="active-users">0</div>
+                        <div class="counter-label">Active Users</div>
+                    </div>
+                    <div class="counter-card">
+                        <i class="fas fa-clock"></i>
+                        <div class="counter-value" id="pending-orders">0</div>
+                        <div class="counter-label">Pending Orders</div>
+                    </div>
+                    <div class="counter-card">
+                        <i class="fas fa-check-circle"></i>
+                        <div class="counter-value" id="completed-orders">0</div>
+                        <div class="counter-label">Completed Orders</div>
+                    </div>
+                </div>
+                <div class="users-section">
+                    <div class="section-header">
+                        <h2>Customer Activity</h2>
+                        <div class="user-filters">
+                            <input type="text" id="user-search" placeholder="Search customers...">
+                        </div>
+                    </div>
+                    <div class="users-list" id="users-list"></div>
+                    <button class="btn reset-activity-btn" onclick="resetCustomerActivity()">Reset Activity</button>
+                </div>
+            </div>
+
+            <!-- Announcements Tab -->
+            <div class="tab-content" id="announcements">
+                <div class="announcement-form">
+                    <h2>Create Announcement</h2>
+                    <form id="announcement-form">
+                        <div class="form-group">
+                            <label for="announcement-title">Title</label>
+                            <input type="text" id="announcement-title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="announcement-message">Message</label>
+                            <textarea id="announcement-message" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-bullhorn"></i> Post Announcement
+                        </button>
+                    </form>
+                </div>
+                <div class="announcement-list" id="announcement-list"></div>
+            </div>
+
+            <!-- Coupons Tab -->
+            <div class="tab-content" id="coupons">
+                <div class="coupon-form">
+                    <h2>Create Coupon</h2>
+                    <form id="coupon-form">
+                        <div class="form-group">
+                            <label for="coupon-code">Coupon Code</label>
+                            <input type="text" id="coupon-code" required placeholder="e.g., SUMMER20">
+                        </div>
+                        <div class="form-group">
+                            <label for="discount-type">Discount Type</label>
+                            <select id="discount-type" required>
+                                <option value="percentage">Percentage (%)</option>
+                                <option value="fixed">Fixed Amount (₹)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="discount-value">Discount Value</label>
+                            <input type="number" id="discount-value" required min="1" max="100" step="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="coupon-expiry">Expiry Date</label>
+                            <input type="date" id="coupon-expiry" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Create Coupon
+                        </button>
+                    </form>
+                </div>
+                <div class="coupon-list" id="coupon-list">
+                    <!-- Coupons will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="admin.js"></script>
+</body>
+</html> 

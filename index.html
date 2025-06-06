@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CARTPAY SOTRE - Instant Game Accounts at the Best Price</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Add these styles for smooth content transition */
+        .main-content {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .main-content.loaded {
+            opacity: 1;
+        }
+
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loader-content {
+            text-align: center;
+        }
+
+        .loader-content i {
+            font-size: 3rem;
+            color: #2196F3;
+            margin-bottom: 1rem;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        html, body {
+            background: #fff !important;
+            color: #222;
+        }
+    </style>
+</head>
+<body>
+    <div class="loader">
+        <div class="loader-content">
+            <i class="fas fa-gamepad"></i>
+            <span>Loading CARTPAY STORE...</span>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="announcement-popup" id="announcement-popup">
+            <div class="announcement-popup-content">
+                <div class="announcement-popup-header">
+                    <h3 id="popup-title"></h3>
+                    <button class="close-popup" onclick="closeAnnouncementPopup()">×</button>
+                </div>
+                <p id="popup-message"></p>
+            </div>
+        </div>
+
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-gamepad"></i>
+                <h1>CARTPAY SOTRE</h1>
+            </div>
+            <nav class="nav">
+                <ul>
+                    <li><a href="index.html" class="active"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="#shop"><i class="fas fa-store"></i> Shop</a></li>
+                    <li class="cart-container">
+                        <a href="#" class="cart-link" id="cart-link">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-count">0</span>
+                        </a>
+                        <div class="cart-dropdown" id="cart-dropdown">
+                            <div class="cart-section">
+                                <div class="cart-header">
+                                    <h2>Shopping Cart</h2>
+                                    <button class="clear-cart" onclick="clearCart()">
+                                        <i class="fas fa-trash"></i> Clear Cart
+                                    </button>
+                                </div>
+                                <div id="cart-items"></div>
+                                <div class="cart-footer">
+                                    <div class="coupon-input">
+                                        <input type="text" id="coupon-input" placeholder="Enter coupon code">
+                                        <button onclick="applyCoupon()">Apply</button>
+                                    </div>
+                                    <div class="cart-total">
+                                        <span>Subtotal:</span>
+                                        <span id="cart-subtotal">₹0.00</span>
+                                    </div>
+                                    <div class="cart-discount" id="discount-row" style="display: none;">
+                                        <span>Discount:</span>
+                                        <span id="cart-discount">-₹0.00</span>
+                                    </div>
+                                    <div class="cart-total">
+                                        <span>Total:</span>
+                                        <span id="cart-total">₹0.00</span>
+                                    </div>
+                                    <a href="checkout.html" class="checkout-btn">
+                                        <i class="fas fa-shopping-bag"></i> Checkout
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
+                    <li class="admin-panel-link" style="display: none;">
+                        <a href="admin.html"><i class="fas fa-user-shield"></i> Admin Panel</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <a href="login.html" class="btn btn-login"><i class="fas fa-sign-in-alt"></i> Login</a>
+                <a href="sign-in.html" class="btn btn-signup"><i class="fas fa-user-plus"></i> Sign Up</a>
+            </div>
+            <div class="user-profile" style="display: none;">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-info">
+                    <span class="user-name"></span>
+                    <span class="user-role"></span>
+                </div>
+                <button class="btn btn-login" id="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </header>
+
+        <div class="scroll-progress"></div>
+
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Instant Game Accounts at the Best Price</h1>
+                <p>Get your favorite game accounts instantly with secure delivery</p>
+                <a href="#shop" class="btn shop-now-btn">Shop Now</a>
+            </div>
+        </section>
+
+        <section id="shop" class="products-section">
+            <div class="section-title">
+                <h2>Our Products</h2>
+                <p>Choose from our selection of premium game accounts</p>
+            </div>
+            <div class="products-grid" id="products-container">
+                <!-- Products will be loaded dynamically -->
+            </div>
+        </section>
+
+        <section class="announcements-section">
+            <div class="section-title">
+                <h2>Latest Updates</h2>
+                <p>Stay informed about our latest news and offers</p>
+            </div>
+            <div class="announcements-container" id="announcements-container">
+                <!-- Announcements will be loaded dynamically -->
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About CARTPAY STORE</h3>
+                    <p>Your trusted source for premium accounts and nitro tokens, nitro so many products are available.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li> PAYMENT METHOD IS UPI ONLY</li>
+                        <li> USE YOUR EMAIL DONT USE ANY TEM MAIL</li>
+                        <li> DO NOT TRY TO SCAM ME I AM YOUR BIG BROTHER </li>
+                        <li>  </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="copyright">
+                    <i class="fas fa-copyright"></i>
+                    <span>CARTPAY STORE - cartpay.netlify.app</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loader = document.querySelector('.loader');
+            const mainContent = document.querySelector('.main-content');
+            mainContent.style.display = 'block'; // Make sure it's visible
+
+            setTimeout(() => {
+                mainContent.classList.add('loaded');
+                setTimeout(() => {
+                    loader.style.opacity = '0';
+                    setTimeout(() => {
+                        loader.style.display = 'none';
+                    }, 500);
+                }, 500);
+            }, 100);
+
+            const user = JSON.parse(localStorage.getItem('user'));
+            const adminNav = document.querySelector('.admin-nav');
+            
+            if (user && user.role === 'admin') {
+                adminNav.style.display = 'block';
+            } else {
+                adminNav.style.display = 'none';
+            }
+        });
+
+        // Load announcements from localStorage
+        function loadAnnouncements() {
+            const announcementsContainer = document.getElementById('announcements-container');
+            const announcements = JSON.parse(localStorage.getItem('announcements') || '[]');
+
+            if (announcements.length === 0) {
+                announcementsContainer.innerHTML = '<p class="no-announcements">No announcements at the moment.</p>';
+                return;
+            }
+
+            announcementsContainer.innerHTML = announcements.map(announcement => `
+                <div class="announcement-card">
+                    <div class="announcement-header">
+                        <h3>${announcement.title}</h3>
+                        <span class="announcement-date">${new Date(announcement.date).toLocaleDateString()}</span>
+                    </div>
+                    <p>${announcement.message}</p>
+                </div>
+            `).join('');
+        }
+
+        // Initialize announcements
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAnnouncements();
+        });
+
+        window.editProduct = editProduct;
+        window.deleteProduct = deleteProduct;
+    </script>
+</body>
+</html> 
